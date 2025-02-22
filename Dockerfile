@@ -1,14 +1,13 @@
-# Use the official Nginx image as a base
-FROM nginx:alpine
+FROM ubuntu:24.04
 
-# Remove default Nginx website files
-RUN rm -rf /usr/share/nginx/html/*
+RUN apt-get update -y && apt-get install -y nginx
 
-# Copy all files from the current directory to Nginx's public folder
-COPY . /usr/share/nginx/html
+WORKDIR /var/www/html
 
-# Expose port 80 to the outside world
+COPY . /var/www/html
+
+ENV APP_ENV=Development
+
 EXPOSE 80
 
-# Start Nginx when the container launches
 CMD ["nginx", "-g", "daemon off;"]
